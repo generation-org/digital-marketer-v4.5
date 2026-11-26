@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Marketing: Prompt Builder Interactive Activity</title>
+
+  <!-- APPROVED FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/af/008a6d/00000000000000003b9b1287/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM PALETTE
+       ========================================================================== */
+    :root {
+      --color-blue-0: #0074B9;
+      --color-blue-1: #00619A;
+      --color-blue-2: #2B8BC5;
+      --color-blue-3: #80B9DC;
+
+      --color-green-0: #32B34D;
+      --color-green-1: #1D8F35;
+
+      --color-black-0: #001725;
+      --color-black-1: #2B3E49;
+      --color-black-2: #808B92;
+
+      --color-bg-light: #F5F9FC;
+      --color-border-blue: #D0DFED;
+
+      --color-alert-red: #F14D5C;
+      --color-highlight-orange: #FC8905;
+
+      --tint-subject: #E3F2FD;
+      --tint-action: #E8F5E9;
+      --tint-setting: #FFF3E0;
+      --tint-mood: #F3E5F5;
+      --tint-camera: #E0F7FA;
+      --tint-duration: #FFFDE7;
+      --tint-aspect: #FCE4EC;
+
+      --font-heading: "azo-sans-web", "Roboto", sans-serif;
+      --font-body: "Roboto", "Open Sans", Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { background-color: #ffffff; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.4;
+      color: var(--color-black-0);
+      padding: 8px;
+    }
+
+    .app { max-width: 1000px; min-width: 300px; margin: 0 auto; }
+
+    /* ---------- Header ---------- */
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-blue-0);
+    }
+
+    .title-rule {
+      height: 3px;
+      background-color: var(--color-green-0);
+      border: none;
+      border-radius: 2px;
+      margin: 6px 0 8px;
+    }
+
+    .mode-group { display: flex; gap: 6px; }
+
+    .btn-mode {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 2px solid var(--color-blue-0);
+      background-color: #ffffff;
+      color: var(--color-blue-0);
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+    }
+    .btn-mode:hover { background-color: var(--color-bg-light); }
+    .btn-mode.active { background-color: var(--color-blue-0); color: #ffffff; }
+
+    .scenario { font-size: 14px; color: var(--color-black-1); }
+
+    details.brand { margin: 4px 0 10px; font-size: 14px; color: var(--color-black-1); }
+    details.brand summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--color-blue-1);
+      min-height: 28px;
+      display: inline-block;
+      padding: 2px 0;
+    }
+    .brand-text {
+      margin-top: 4px;
+      padding: 8px 12px;
+      background-color: var(--color-bg-light);
+      border-left: 4px solid var(--color-highlight-orange);
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* ---------- Main layout ---------- */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; }
+      .preview { order: -1; }
+    }
+
+    .panel {
+      border: 1px solid var(--color-border-blue);
+      border-radius: 8px;
+      padding: 12px;
+      background-color: #ffffff;
+    }
+
+    .panel-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-blue-0);
+      margin-bottom: 8px;
+    }
+
+    /* ---------- Step pills ---------- */
+    .steps-nav { display: flex; gap: 6px; margin-bottom: 10px; }
+    .step-pill {
+      flex: 1;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 6px;
+      border: 2px solid var(--color-border-blue);
+      background-color: #ffffff;
+      color: var(--color-black-1);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .step-pill:hover { border-color: var(--color-blue-2); background-color: var(--color-bg-light); }
+    .step-pill.done { background-color: #EAF7ED; border-color: var(--color-green-1); }
+    .step-pill[aria-current="step"] { background-color: var(--color-blue-0); border-color: var(--color-blue-0); color: #ffffff; }
+
+    /* ---------- Step panel ---------- */
+    fieldset.step { border: none; }
+    legend.step-legend {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-blue-1);
+      margin-bottom: 8px;
+      outline: none;
+    }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    @media (max-width: 420px) { .options-grid { grid-template-columns: 1fr; } }
+
+    .option-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 2px solid var(--color-border-blue);
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #ffffff;
+      min-height: 44px;
+    }
+    .option-chip:hover { border-color: var(--color-blue-2); background-color: var(--color-bg-light); }
+    .option-chip:has(input:checked) { border-color: var(--color-blue-0); background-color: var(--color-bg-light); }
+    .option-chip input[type="radio"] { width: 18px; height: 18px; flex: none; accent-color: var(--color-blue-0); cursor: pointer; }
+    .option-text { font-size: 14px; line-height: 1.25; }
+
+    input:focus-visible, button:focus-visible, summary:focus-visible, legend:focus-visible, .option-chip:has(input:focus-visible) {
+      outline: 3px solid var(--color-black-0);
+      outline-offset: 2px;
+    }
+
+    .custom-box { margin-top: 8px; display: none; flex-direction: column; gap: 4px; }
+    .custom-box.show { display: flex; }
+    .custom-box label { font-size: 13px; font-weight: 700; color: var(--color-black-1); }
+    .text-input {
+      width: 100%;
+      padding: 8px 10px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--color-black-0);
+      background-color: #ffffff;
+      border: 2px solid var(--color-black-2);
+      border-radius: 6px;
+      min-height: 44px;
+    }
+    .hint-text { font-size: 13px; color: var(--color-black-1); }
+
+    .step-nav-btns { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; }
+
+    .btn-action {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+      border: 2px solid transparent;
+    }
+    .btn-primary { background-color: var(--color-blue-1); color: #ffffff; border-color: var(--color-blue-1); }
+    .btn-primary:hover:not(:disabled) { background-color: var(--color-black-1); border-color: var(--color-black-1); }
+    .btn-primary:disabled { background-color: #E2E8EE; color: var(--color-black-1); border-color: #C5D0D8; cursor: not-allowed; }
+    .btn-secondary { background-color: #ffffff; color: var(--color-blue-1); border-color: var(--color-blue-1); }
+    .btn-secondary:hover:not(:disabled) { background-color: var(--color-bg-light); }
+    .btn-secondary:disabled { color: var(--color-black-1); border-color: #C5D0D8; opacity: 0.6; cursor: not-allowed; }
+    .spacer { flex: 1; }
+
+    /* ---------- Preview ---------- */
+    .progress-line { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .markers { display: flex; gap: 4px; margin-bottom: 8px; }
+    .marker { flex: 1; height: 6px; background-color: #D5DFE6; border-radius: 3px; }
+    .marker.filled { background-color: var(--color-green-0); }
+
+    .assembled-prompt-box {
+      background-color: var(--color-bg-light);
+      border: 2px dashed var(--color-blue-3);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 15px;
+      line-height: 1.8;
+      min-height: 96px;
+    }
+    .segment { padding: 1px 5px; border-radius: 4px; display: inline-block; }
+    .segment-placeholder { color: var(--color-black-1); background-color: #E2E8EE; font-style: italic; }
+    .segment-subject { background-color: var(--tint-subject); border-bottom: 2px solid #90CAF9; }
+    .segment-action { background-color: var(--tint-action); border-bottom: 2px solid #A5D6A7; }
+    .segment-setting { background-color: var(--tint-setting); border-bottom: 2px solid #FFCC80; }
+    .segment-mood { background-color: var(--tint-mood); border-bottom: 2px solid #CE93D8; }
+    .segment-camera { background-color: var(--tint-camera); border-bottom: 2px solid #80DEEA; }
+    .segment-duration { background-color: var(--tint-duration); border-bottom: 2px solid #FFF59D; }
+    .segment-aspect { background-color: var(--tint-aspect); border-bottom: 2px solid #F48FB1; }
+
+    .actions-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .copy-note { font-size: 13px; color: var(--color-black-1); margin-top: 4px; min-height: 18px; }
+
+    .feedback-box {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background-color: var(--color-bg-light);
+      border-left: 4px solid var(--color-blue-0);
+      font-size: 14px;
+    }
+    .feedback-box.warning { border-left-color: var(--color-highlight-orange); background-color: #FFF9F2; }
+    .feedback-box.success { border-left-color: var(--color-green-0); background-color: #EAF7ED; }
+    .feedback-list { margin: 4px 0 0 18px; }
+    .reminder-line { margin-top: 4px; font-size: 13px; font-style: italic; color: var(--color-black-1); }
+
+    /* ---------- Compare strip ---------- */
+    .compare { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--color-border-blue); font-size: 14px; }
+    .compare-weak { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+    .weak-label { font-weight: 700; }
+    .weak-prompt { background-color: #FEE8EA; border: 1px solid var(--color-alert-red); border-radius: 4px; padding: 1px 8px; font-weight: 700; }
+    .coverage { margin-top: 4px; font-weight: 700; }
+    .checklist { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; }
+    .checklist-item { font-size: 13px; display: flex; gap: 4px; }
+    .checklist-item.covered { color: #14702A; }
+    .checklist-item.missing { color: var(--color-black-1); }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    footer { margin-top: 8px; text-align: center; font-size: 12px; color: var(--color-black-1); }
+
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <header>
+      <div class="top">
+        <h1 id="main-title">Digital Marketing Prompt Builder</h1>
+        <div class="mode-group" role="group" aria-label="Activity mode">
+          <button id="btn-mode-preset" class="btn-mode active" type="button" aria-pressed="true"></button>
+          <button id="btn-mode-custom" class="btn-mode" type="button" aria-pressed="false"></button>
+        </div>
+      </div>
+      <hr class="title-rule" />
+      <p id="scenario-intro" class="scenario"></p>
+      <details id="brand-box" class="brand">
+        <summary>Brand reminder</summary>
+        <div id="brand-text" class="brand-text"></div>
+      </details>
+    </header>
+
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <main class="layout">
+
+      <!-- Builder: one element at a time -->
+      <section class="panel builder" aria-labelledby="builder-heading">
+        <h2 id="builder-heading" class="panel-title">Build your prompt</h2>
+        <div id="steps-nav" class="steps-nav" role="group" aria-label="Prompt elements"></div>
+        <form id="prompt-form" onsubmit="return false;">
+          <fieldset id="step-panel" class="step"></fieldset>
+        </form>
+      </section>
+
+      <!-- Preview and comparison -->
+      <section class="panel preview" aria-labelledby="output-heading">
+        <h2 id="output-heading" class="panel-title">Your prompt</h2>
+        <div id="progress-status" class="progress-line"></div>
+        <div id="progress-markers" class="markers" aria-hidden="true"></div>
+        <div id="assembled-prompt" class="assembled-prompt-box" aria-live="polite"></div>
+
+        <div class="actions-bar">
+          <button id="btn-copy" class="btn-action btn-primary" type="button" disabled aria-describedby="copy-note"></button>
+          <button id="btn-reset" class="btn-action btn-secondary" type="button"></button>
+        </div>
+        <div id="copy-note" class="copy-note"></div>
+
+        <div id="feedback-box" class="feedback-box" aria-live="polite"></div>
+
+        <div class="compare">
+          <div class="compare-weak"><span class="weak-label">Weak prompt:</span><span id="weak-prompt" class="weak-prompt"></span></div>
+          <div id="checklist-summary" class="coverage"></div>
+          <ul id="checklist" class="checklist"></ul>
+        </div>
+      </section>
+
+    </main>
+
+    <footer><p id="footer-text"></p></footer>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       CONFIGURATION: content and text strings (British English)
+       ========================================================================== */
+    const CONFIG = {
+      scenarioIntro: "Sunrise Bakes is a fictional neighbourhood bakery launching Saturday Sourdough. Build a precise AI video prompt, one element at a time.",
+      brandInfo: "<strong>Sunrise Bakes</strong> is warm, friendly and neighbourly. Colours are warm yellow, deep brown and cream. Videos for social media should be vertical (9:16).",
+      footer: "© 2026 Generation: You Employed, Inc.",
+
+      btnModePreset: "Sunrise Bakes example",
+      btnModeCustom: "Use my own idea",
+
+      btnCopy: "Copy prompt",
+      btnCopySuccess: "Copied!",
+      btnCopyFallback: "Prompt selected. Press Ctrl+C (Cmd+C) to copy it.",
+      btnReset: "Start again",
+      copyLocked: "Choose at least 4 elements to unlock copying.",
+      minToCopy: 4,
+
+      progressTemplate: "{count} of {total} elements chosen",
+      coverageComparison: "Your prompt covers {count} of {total} elements. The weak prompt covers 0.",
+
+      weakDefaultPreset: "Make a video about bread.",
+      weakDefaultCustom: "Make a video about {topic}.",
+      customTopicPlaceholder: "bread / your topic",
+
+      reminderLine: "A strong prompt is a first draft. Check the result, then change one or two things and try again.",
+
+      elements: [
+        { key: "subject", label: "Subject", hint: "e.g. A baker's hands / A golden sourdough loaf",
+          presets: ["A baker's hands", "A golden loaf of sourdough", "A sliced loaf showing a soft crumb", "A customer smiling as they take a bite"] },
+        { key: "action", label: "Action", hint: "e.g. lift a loaf from a stone oven",
+          presets: ["lift a loaf from a stone oven", "slice into a warm loaf", "set a loaf down on a wooden counter", "tear off a piece of bread"] },
+        { key: "setting", label: "Setting", hint: "e.g. in a small bakery at sunrise",
+          presets: ["in a small, bright neighbourhood bakery at sunrise", "on a rustic wooden counter by a window", "in a warm kitchen with flour in the air", "at a busy Saturday market stall"] },
+        { key: "mood", label: "Style or mood", hint: "e.g. warm, cosy, natural light",
+          presets: ["warm, cosy, natural light", "bright and cheerful", "calm and artisan", "cold, clinical and blue"] },
+        { key: "camera", label: "Camera angle or movement", hint: "e.g. slow close-up with a gentle push-in",
+          presets: ["slow close-up with a gentle push-in", "overhead shot, static", "quick cuts between close-ups", "wide shot, handheld"] },
+        { key: "duration", label: "Duration", hint: "e.g. 4 seconds",
+          presets: ["3 seconds", "4 seconds", "5 seconds", "10 seconds"] },
+        { key: "aspect", label: "Aspect ratio", hint: "e.g. 9:16 vertical",
+          presets: ["9:16 vertical", "16:9 horizontal", "1:1 square", "4:5 portrait"] }
+      ],
+
+      feedbackRules: {
+        missingItems: "Still to choose: ",
+        coldMoodWarning: "The 'cold, clinical and blue' style does not fit the Sunrise Bakes brand (warm, friendly). Try a warmer mood.",
+        aspectWarning: "Social video for this activity should be 9:16 vertical for mobile viewing.",
+        durationWarning: "Single shots work best at a few seconds each. A 10-15 second video is usually 3-4 short shots.",
+        completeSuccess: "This prompt is far stronger than the weak version because it specifies the subject, action, setting, mood, camera, clip length and aspect ratio, not just a general topic."
+      }
+    };
+
+    /* ==========================================================================
+       STATE
+       ========================================================================== */
+    const KEYS = CONFIG.elements.map(e => e.key);
+    const state = { mode: "preset", step: 0, selections: {}, customOpen: {} };
+    function resetState() { KEYS.forEach(k => { state.selections[k] = ""; state.customOpen[k] = false; }); state.step = 0; }
+    resetState();
+
+    const $ = id => document.getElementById(id);
+    const DOM = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ["scenario-intro","brand-box","brand-text","footer-text","btn-mode-preset","btn-mode-custom","steps-nav","step-panel",
+       "progress-status","progress-markers","assembled-prompt","btn-copy","btn-reset","copy-note","feedback-box","weak-prompt",
+       "checklist-summary","checklist","sr-announcer"].forEach(id => DOM[id] = $(id));
+
+      DOM["scenario-intro"].textContent = CONFIG.scenarioIntro;
+      DOM["brand-text"].innerHTML = CONFIG.brandInfo;
+      DOM["footer-text"].textContent = CONFIG.footer;
+      DOM["btn-mode-preset"].textContent = CONFIG.btnModePreset;
+      DOM["btn-mode-custom"].textContent = CONFIG.btnModeCustom;
+      DOM["btn-copy"].textContent = CONFIG.btnCopy;
+      DOM["btn-reset"].textContent = CONFIG.btnReset;
+
+      DOM["btn-mode-preset"].addEventListener("click", () => switchMode("preset"));
+      DOM["btn-mode-custom"].addEventListener("click", () => switchMode("custom"));
+      DOM["btn-copy"].addEventListener("click", copyPrompt);
+      DOM["btn-reset"].addEventListener("click", () => { resetState(); renderAll(false); announce("Activity reset. All selections cleared."); });
+
+      renderAll(false);
+    });
+
+    function announce(msg) {
+      DOM["sr-announcer"].textContent = "";
+      setTimeout(() => { DOM["sr-announcer"].textContent = msg; }, 50);
+    }
+
+    function switchMode(mode) {
+      if (state.mode === mode) return;
+      state.mode = mode;
+      const preset = mode === "preset";
+      DOM["btn-mode-preset"].classList.toggle("active", preset);
+      DOM["btn-mode-preset"].setAttribute("aria-pressed", String(preset));
+      DOM["btn-mode-custom"].classList.toggle("active", !preset);
+      DOM["btn-mode-custom"].setAttribute("aria-pressed", String(!preset));
+      DOM["brand-box"].style.display = preset ? "" : "none";
+      resetState();
+      renderAll(false);
+      announce("Switched to: " + (preset ? CONFIG.btnModePreset : CONFIG.btnModeCustom));
+    }
+
+    function renderAll(focusLegend) {
+      renderSteps(focusLegend);
+      updateUI();
+    }
+
+    /* ==========================================================================
+       STEP NAVIGATION AND STEP PANEL
+       ========================================================================== */
+    function isChosen(key) { return Boolean(state.selections[key] && state.selections[key].trim() !== ""); }
+
+    function goToStep(i, focusLegend) {
+      state.step = Math.max(0, Math.min(CONFIG.elements.length - 1, i));
+      renderSteps(focusLegend);
+      const el = CONFIG.elements[state.step];
+      announce(`Step ${state.step + 1} of ${CONFIG.elements.length}: ${el.label}`);
+    }
+
+    function renderSteps(focusLegend) {
+      const total = CONFIG.elements.length;
+      const el = CONFIG.elements[state.step];
+
+      /* Pills */
+      DOM["steps-nav"].innerHTML = "";
+      CONFIG.elements.forEach((e, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "step-pill";
+        b.dataset.index = i;
+        b.addEventListener("click", () => goToStep(i, true));
+        DOM["steps-nav"].appendChild(b);
+      });
+      updatePills();
+
+      /* Panel */
+      const panel = DOM["step-panel"];
+      panel.innerHTML = "";
+
+      const legend = document.createElement("legend");
+      legend.className = "step-legend";
+      legend.tabIndex = -1;
+      legend.textContent = `Step ${state.step + 1} of ${total}: ${el.label}`;
+      panel.appendChild(legend);
+
+      if (state.mode === "preset") {
+        const grid = document.createElement("div");
+        grid.className = "options-grid";
+        const name = `element-${el.key}`;
+
+        const customBox = document.createElement("div");
+        customBox.className = "custom-box" + (state.customOpen[el.key] ? " show" : "");
+        const customLabel = document.createElement("label");
+        customLabel.htmlFor = `custom-${el.key}`;
+        customLabel.textContent = `Your ${el.label.toLowerCase()}`;
+        const customInput = document.createElement("input");
+        customInput.type = "text";
+        customInput.id = `custom-${el.key}`;
+        customInput.className = "text-input";
+        customInput.maxLength = 80;
+        customInput.placeholder = el.hint;
+        if (state.customOpen[el.key]) customInput.value = state.selections[el.key] || "";
+        customInput.addEventListener("input", e => { state.selections[el.key] = e.target.value.trim(); updateUI(); });
+        customBox.appendChild(customLabel);
+        customBox.appendChild(customInput);
+
+        el.presets.forEach(text => {
+          const chip = document.createElement("label");
+          chip.className = "option-chip";
+          const radio = document.createElement("input");
+          radio.type = "radio"; radio.name = name; radio.value = text;
+          radio.checked = !state.customOpen[el.key] && state.selections[el.key] === text;
+          radio.addEventListener("change", () => {
+            state.selections[el.key] = text;
+            state.customOpen[el.key] = false;
+            customBox.classList.remove("show");
+            updateUI();
+            announce(`${el.label} set to: ${text}`);
+          });
+          const span = document.createElement("span");
+          span.className = "option-text"; span.textContent = text;
+          chip.appendChild(radio); chip.appendChild(span);
+          grid.appendChild(chip);
+        });
+
+        const ownChip = document.createElement("label");
+        ownChip.className = "option-chip";
+        const ownRadio = document.createElement("input");
+        ownRadio.type = "radio"; ownRadio.name = name; ownRadio.value = "__custom__";
+        ownRadio.checked = state.customOpen[el.key];
+        ownRadio.addEventListener("change", () => {
+          state.customOpen[el.key] = true;
+          state.selections[el.key] = customInput.value.trim();
+          customBox.classList.add("show");
+          customInput.focus();
+          updateUI();
+        });
+        const ownSpan = document.createElement("span");
+        ownSpan.className = "option-text"; ownSpan.textContent = "Write your own...";
+        ownChip.appendChild(ownRadio); ownChip.appendChild(ownSpan);
+        grid.appendChild(ownChip);
+
+        panel.appendChild(grid);
+        panel.appendChild(customBox);
+      } else {
+        const box = document.createElement("div");
+        box.className = "custom-box show";
+        const lbl = document.createElement("label");
+        lbl.htmlFor = `own-${el.key}`;
+        lbl.textContent = `Your ${el.label.toLowerCase()}`;
+        const hint = document.createElement("span");
+        hint.className = "hint-text";
+        hint.id = `hint-${el.key}`;
+        hint.textContent = `Hint: ${el.hint}`;
+        const input = document.createElement("input");
+        input.type = "text"; input.id = `own-${el.key}`; input.className = "text-input";
+        input.maxLength = 80;
+        input.setAttribute("aria-describedby", hint.id);
+        input.value = state.selections[el.key] || "";
+        input.addEventListener("input", e => { state.selections[el.key] = e.target.value; updateUI(); });
+        box.appendChild(lbl); box.appendChild(hint); box.appendChild(input);
+        panel.appendChild(box);
+      }
+
+      /* Back / Next */
+      const nav = document.createElement("div");
+      nav.className = "step-nav-btns";
+      const back = document.createElement("button");
+      back.type = "button"; back.className = "btn-action btn-secondary";
+      back.textContent = "Back"; back.disabled = state.step === 0;
+      back.addEventListener("click", () => goToStep(state.step - 1, true));
+      const spacer = document.createElement("span"); spacer.className = "spacer";
+      const next = document.createElement("button");
+      next.type = "button"; next.className = "btn-action btn-primary";
+      const isLast = state.step === total - 1;
+      next.textContent = isLast ? "Last step" : `Next: ${CONFIG.elements[state.step + 1].label}`;
+      next.disabled = isLast;
+      next.addEventListener("click", () => goToStep(state.step + 1, true));
+      nav.appendChild(back); nav.appendChild(spacer); nav.appendChild(next);
+      panel.appendChild(nav);
+
+      if (focusLegend) legend.focus();
+    }
+
+    function updatePills() {
+      const pills = DOM["steps-nav"].querySelectorAll(".step-pill");
+      pills.forEach((b, i) => {
+        const el = CONFIG.elements[i];
+        const done = isChosen(el.key);
+        b.classList.toggle("done", done);
+        if (i === state.step) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+        b.setAttribute("aria-label", `Step ${i + 1}: ${el.label}, ${done ? "chosen" : "not chosen yet"}`);
+        b.textContent = done ? `${i + 1} ✓` : String(i + 1);
+      });
+    }
+
+    /* ==========================================================================
+       PROMPT ASSEMBLY
+       ========================================================================== */
+    function sanitize(str) { return str ? str.trim().replace(/[.,;:]+$/, "") : ""; }
+
+    function pieces() {
+      const s = state.selections;
+      const settingLead = (s.setting && !/^(in|on|at|inside|outside|near|by)\b/i.test(s.setting.trim())) ? "in " : "";
+      const moodStyle = s.mood && /style|light|lighting|cosy|cheerful|artisan|mood/i.test(s.mood);
+      return [
+        { key: "subject",  lead: "",                 trail: " " },
+        { key: "action",   lead: "",                 trail: " " },
+        { key: "setting",  lead: settingLead,        trail: ". " },
+        { key: "mood",     lead: moodStyle ? "Shot in a " : "Style: ", trail: moodStyle ? " style. " : ". " },
+        { key: "camera",   lead: "Camera: ", trail: ". " },
+        { key: "duration", lead: "Clip length: ",    trail: ", " },
+        { key: "aspect",   lead: "format: ",         trail: "." }
+      ];
+    }
+
+    function renderPrompt() {
+      const box = DOM["assembled-prompt"];
+      box.innerHTML = "";
+      pieces().forEach(p => {
+        const val = sanitize(state.selections[p.key]);
+        const span = document.createElement("span");
+        if (val) { span.className = `segment segment-${p.key}`; span.textContent = val; }
+        else { span.className = "segment segment-placeholder"; span.textContent = `[${p.key}]`; }
+        if (p.lead) box.appendChild(document.createTextNode(p.lead));
+        box.appendChild(span);
+        if (p.trail) box.appendChild(document.createTextNode(p.trail));
+      });
+    }
+
+    function plainPrompt() {
+      let out = "";
+      pieces().forEach(p => {
+        const val = sanitize(state.selections[p.key]);
+        if (val) out += p.lead + val + p.trail;
+      });
+      out = out.replace(/\s+/g, " ").trim().replace(/[,\s]+$/, "");
+      if (out && !/[.!?]$/.test(out)) out += ".";
+      return out;
+    }
+
+    /* ==========================================================================
+       UI UPDATES
+       ========================================================================== */
+    function updateUI() {
+      const total = CONFIG.elements.length;
+      const count = CONFIG.elements.filter(e => isChosen(e.key)).length;
+
+      DOM["progress-status"].textContent = CONFIG.progressTemplate.replace("{count}", count).replace("{total}", total);
+      DOM["progress-markers"].innerHTML = "";
+      for (let i = 0; i < total; i++) {
+        const m = document.createElement("div");
+        m.className = "marker" + (i < count ? " filled" : "");
+        DOM["progress-markers"].appendChild(m);
+      }
+
+      updatePills();
+      renderPrompt();
+
+      const canCopy = count >= CONFIG.minToCopy;
+      DOM["btn-copy"].disabled = !canCopy;
+      DOM["copy-note"].textContent = canCopy ? "" : CONFIG.copyLocked;
+
+      updateFeedback(count, total);
+      updateWeak(count, total);
+    }
+
+    function updateFeedback(count, total) {
+      const box = DOM["feedback-box"];
+      box.innerHTML = "";
+      box.className = "feedback-box";
+      const missing = CONFIG.elements.filter(e => !isChosen(e.key)).map(e => e.key);
+      const warnings = [];
+      if (state.mode === "preset") {
+        if (state.selections.mood === "cold, clinical and blue") warnings.push(CONFIG.feedbackRules.coldMoodWarning);
+        if (state.selections.aspect && state.selections.aspect !== "9:16 vertical") warnings.push(CONFIG.feedbackRules.aspectWarning);
+        if (state.selections.duration === "10 seconds") warnings.push(CONFIG.feedbackRules.durationWarning);
+      }
+
+      let html = "";
+      if (count < total) {
+        box.classList.add("warning");
+        html = `<strong>${CONFIG.feedbackRules.missingItems}${missing.join(", ")}.</strong>`;
+      } else if (warnings.length) {
+        box.classList.add("warning");
+        html = "<strong>Prompt is complete. Check these:</strong>";
+      } else {
+        box.classList.add("success");
+        html = `<strong>Well done!</strong> ${CONFIG.feedbackRules.completeSuccess}`;
+      }
+      if (warnings.length) {
+        html += "<ul class='feedback-list'>" + warnings.map(w => `<li>${w}</li>`).join("") + "</ul>";
+      }
+      box.innerHTML = html;
+
+      const reminder = document.createElement("div");
+      reminder.className = "reminder-line";
+      reminder.textContent = CONFIG.reminderLine;
+      box.appendChild(reminder);
+    }
+
+    function updateWeak(count, total) {
+      const weak = state.mode === "preset"
+        ? CONFIG.weakDefaultPreset
+        : CONFIG.weakDefaultCustom.replace("{topic}", (state.selections.subject || "").trim() || CONFIG.customTopicPlaceholder);
+      DOM["weak-prompt"].textContent = weak;
+      DOM["checklist-summary"].textContent = CONFIG.coverageComparison.replace("{count}", count).replace("{total}", total);
+
+      DOM["checklist"].innerHTML = "";
+      CONFIG.elements.forEach(e => {
+        const covered = isChosen(e.key);
+        const li = document.createElement("li");
+        li.className = "checklist-item " + (covered ? "covered" : "missing");
+        const icon = document.createElement("span");
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = covered ? "✓" : "✗";
+        const label = document.createElement("span");
+        label.textContent = `${e.key}${covered ? "" : " (not covered)"}`;
+        li.appendChild(icon); li.appendChild(label);
+        DOM["checklist"].appendChild(li);
+      });
+    }
+
+    /* ==========================================================================
+       COPY (clipboard may be blocked inside an iframe, so there is a fallback)
+       ========================================================================== */
+    function copyPrompt() {
+      const text = plainPrompt();
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(showCopySuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+    function showCopySuccess() {
+      DOM["btn-copy"].textContent = CONFIG.btnCopySuccess;
+      announce(CONFIG.btnCopySuccess);
+      setTimeout(() => { DOM["btn-copy"].textContent = CONFIG.btnCopy; }, 2000);
+    }
+    function fallbackCopy() {
+      const range = document.createRange();
+      range.selectNodeContents(DOM["assembled-prompt"]);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      DOM["copy-note"].textContent = CONFIG.btnCopyFallback;
+      announce(CONFIG.btnCopyFallback);
+    }
+  </script>
+</body>
+</html>
